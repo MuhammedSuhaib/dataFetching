@@ -1,10 +1,12 @@
-import styles from "./page.module.css";
 import Link from "next/link";
-
-export default function Home() {
+import styles from "./Navbar.module.css"
+const Navbar = () => {
   return (
-    <div className={styles.div} style={{ height: "100vh", backgroundColor: "#cbd5e1" }}>
-      <img src="/7.png" alt="Logo " />
+    <nav  style={{ backgroundColor: "#3b82f6", padding: "16px" , color:"white"}}>
+      <div  style={{ display: "flex", justifyContent:"space-between" , fontWeight: "600px", listStyle: "none" ,alignItems:"center"}}  className={styles.flex}>
+        <Link href="/">
+        <img src="/7.png" alt="Logo " />
+        </Link>
       <ul className=" gap-4 text-2xl font-semibold" style={{ display: "flex", gap: "16px", fontSize: "24px", fontWeight: "600px", listStyle: "none" }} >
         <li>
           <Link
@@ -21,6 +23,9 @@ export default function Home() {
           </Link>{" "}
         </li>
       </ul>
-    </div>
+      </div>
+    </nav>
   );
-}
+};
+
+export default Navbar;
