@@ -40,9 +40,11 @@ a {
     color-scheme: dark;
   }
 }
+
 .text-green {
   color: green;
 }
 
 .text-red {
-  color: #dc2626;}
+  color: #dc2626;
+}
