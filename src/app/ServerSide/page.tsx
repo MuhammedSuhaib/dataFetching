@@ -1,4 +1,4 @@
-import styles from "./sever.module.css"
+import styles from "./server.module.css"
 async function ServerSidePage() {
   interface Book {
     id: number;
