@@ -7,7 +7,7 @@ export default function Home() {
       className={styles.div}
       style={{ height: "100vh", backgroundColor: "#cbd5e1" }}
     >
-      <img src="./../../../public/7.png" alt="Logo " />
+      <img src="./7.png" alt="Logo " />
       <ul
         className=" gap-4 text-2xl font-semibold"
         style={{
