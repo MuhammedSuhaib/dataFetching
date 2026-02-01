@@ -34,8 +34,11 @@ jobs:
             css/pnpm-lock.yaml
             tailwindcss/pnpm-lock.yaml
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
+      - name: Prepare Assets
+        run: |
+          # Copy the single root public folder into each project so Next.js can bundle them
+          cp -r public css/
+          cp -r public tailwindcss/
 
       - name: Build CSS project
         run: |
@@ -49,10 +52,18 @@ jobs:
           pnpm install --frozen-lockfile
           pnpm run build
 
-      - name: Prepare combined site
+      - name: Prepare Dist
         run: |
-          mkdir -p dist
-          # Generate landing page since root index.html is missing
+          mkdir -p dist/css dist/tailwindcss
+
+          # Move build outputs to respective subfolders
+          cp -r css/out/* dist/css/
+          cp -r tailwindcss/out/* dist/tailwindcss/
+
+          # Copy shared public folder to root of dist for the landing page
+          cp -r public dist/
+
+          # Generate landing page
           echo '<!DOCTYPE html>
           <html lang="en">
           <head>
@@ -61,20 +72,19 @@ jobs:
             <title>Select Version</title>
             <style>
               body { margin: 0; font-family: system-ui; height: 100vh; background: #cbd5e1; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px; }
-              .btn { padding: 10px 20px; background: #1d4ed8; color: white; text-decoration: none; border-radius: 5px; }
+              .btn { padding: 12px 24px; background: #1d4ed8; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; }
+              img { max-width: 150px; }
             </style>
           </head>
           <body>
-            <h1>Select Project Version</h1>
-            <a href="./css/" class="btn" title="View CSS Version" aria-label="View CSS Version">CSS Version</a>
-            <a href="./tailwindcss/" class="btn" title="View Tailwind Version" aria-label="View Tailwind Version">Tailwind Version</a>
+            <img src="./public/7.png" alt="Logo">
+            <h1>Data Fetching Projects</h1>
+            <div style="display: flex; gap: 15px;">
+              <a href="./css/" class="btn" title="View CSS Version" aria-label="View CSS Version">CSS Version</a>
+              <a href="./tailwindcss/" class="btn" title="View Tailwind Version" aria-label="View Tailwind Version">Tailwind Version</a>
+            </div>
           </body>
           </html>' > dist/index.html
-          
-          cp -r public dist/ 2>/dev/null || echo "No public folder"
-          mkdir -p dist/css dist/tailwindcss
-          cp -r css/out/* dist/css/
-          cp -r tailwindcss/out/* dist/tailwindcss/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
